@@ -22,17 +22,23 @@ app.http("ask", {
         body: JSON.stringify({ model, messages })
       });
 
-      const data = await resp.json();
+      // Robust upstream parsing
+      const raw = await resp.text();
+      let data;
+      try {
+        data = raw ? JSON.parse(raw) : { error: "Empty response from upstream" };
+      } catch {
+        data = { error: "Non-JSON response from upstream", raw };
+      }
+
       return {
         status: resp.ok ? 200 : resp.status,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+        jsonBody: data
       };
     } catch (err) {
       return {
         status: 500,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "Proxy error", details: String(err) })
+        jsonBody: { error: "Proxy error", details: String(err) }
       };
     }
   }
