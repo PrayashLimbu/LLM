@@ -18,8 +18,8 @@ export default function App() {
         })
       });
       const json = await res.json();
-      const content =json?.choices??message?.content ?? JSON.stringify(json, null, 2);
-      setReply(content);
+      const replyText =json?.choices??message?.content ?? JSON.stringify(json, null, 2);
+      setReply(replyText);
     } catch (e) {
       setReply(String(e));
     } finally {
