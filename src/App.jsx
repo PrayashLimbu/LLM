@@ -4,6 +4,11 @@ export default function App() {
   const [input, setInput] = useState("");
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
+  const res = await fetch("/api/ask", { /* ... */ });
+  const text = await res.text();
+  const isJson = res.headers.get("content-type")?.includes("application/json");
+  const payload = text ? (isJson ? JSON.parse(text) : { error: "Non-JSON response", raw: text }) : { error: `Empty response (status ${res.status})` };
+
 
   const ask = async () => {
     setLoading(true);
@@ -18,7 +23,7 @@ export default function App() {
         })
       });
       const json = await res.json();
-      const replyText =json?.choices?.?.message?.content ?? JSON.stringify(json, null, 2);
+      const replyText = json?.choices?.?.message?.content ?? JSON.stringify(json, null, 2);
       setReply(replyText);
     } catch (e) {
       setReply(String(e));
