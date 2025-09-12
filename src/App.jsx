@@ -27,7 +27,7 @@ export default function App() {
 
       if (!res.ok) throw new Error(payload?.error || `HTTP ${res.status}`);
 
-      const replyText = payload?.choices?.?.message?.content ?? JSON.stringify(payload, null, 2);
+      const replyText = payload?.choices?.message?.content ?? JSON.stringify(payload, null, 2);
       setReply(replyText);
     } catch (e) {
       setReply(String(e));
