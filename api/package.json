@@ -1,0 +1,8 @@
+{
+  "name": "swa-perplexity-api",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "@azure/functions": "^4.4.0"
+  }
+}
