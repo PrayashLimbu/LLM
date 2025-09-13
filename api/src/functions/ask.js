@@ -7,13 +7,12 @@ app.http("ask", {
     try {
       const { model = "sonar", messages = [] } = await request.json();
       const apiKey = process.env.PERPLEXITY_API_KEY;
-      const baseUrl = process.env.PERPLEXITY_BASE_URL || "https://api.perplexity.ai";
 
       if (!apiKey) {
         return { status: 500, jsonBody: { error: "Missing PERPLEXITY_API_KEY" } };
       }
 
-      const resp = await fetch(`${baseUrl}/chat/completions`, {
+      const resp = await fetch(`https://api.perplexity.ai/chat/completions`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${apiKey}`,
